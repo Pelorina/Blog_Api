@@ -1,12 +1,11 @@
 package Blog.api.demo.Model;
 import Blog.api.demo.Model.Audit.DateAudit;
 import Blog.api.demo.Model.Role.Role;
+import Blog.api.demo.Model.Role.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
 
@@ -18,6 +17,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
         @UniqueConstraint(columnNames = { "email" }) })
@@ -165,4 +166,10 @@ public class User extends DateAudit {
             this.comments = Collections.unmodifiableList(comments);
         }
     }
+    public boolean hasRole(RoleName roleName) {
+        return roles != null && roles.stream()
+                .anyMatch(role -> role.getName() == roleName);
+    }
+
+
 }

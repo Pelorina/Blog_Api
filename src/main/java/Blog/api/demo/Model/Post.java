@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@Setter
+@Getter
 @Table(name = "posts", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Post extends UserDateAudit {
@@ -34,6 +39,11 @@ public class Post extends UserDateAudit {
 
     @Column(name = "author")
     private String author;
+
+    @Setter
+    @Getter
+    @Column(nullable = false)
+    private boolean approved ;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -79,4 +89,5 @@ public class Post extends UserDateAudit {
             this.tags = Collections.unmodifiableList(tags);
         }
     }
+
 }
