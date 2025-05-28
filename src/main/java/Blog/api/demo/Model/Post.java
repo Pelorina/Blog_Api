@@ -29,6 +29,12 @@ public class Post extends UserDateAudit {
     @Column(name = "body")
     private String body;
 
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "author")
+    private String author;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
