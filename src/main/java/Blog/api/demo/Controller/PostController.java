@@ -20,7 +20,7 @@ public class PostController {
     }
 
 
-    @GetMapping
+    @GetMapping("/getPost")
     public ResponseEntity<List<PostDto>> getAllPosts() {
         return ResponseEntity.ok(postService.getAllPosts());
     }
@@ -30,7 +30,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
-    @PostMapping
+    @PostMapping("/createPost")
     public ResponseEntity<PostDto> createPost(@RequestBody  PostDto postDto,
                                               @RequestHeader("X-User-Email") String email) {
         return new ResponseEntity<>(postService.createPost(postDto, email), HttpStatus.CREATED);

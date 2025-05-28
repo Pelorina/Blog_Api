@@ -1,6 +1,7 @@
 package Blog.api.demo.Service;
 
 import Blog.api.demo.Dto.PostDto;
+import Blog.api.demo.Dto.UserDto;
 import Blog.api.demo.Exceptions.ResourceNotFoundException;
 import Blog.api.demo.Mapper.PostMapper;
 import Blog.api.demo.Model.Post;
@@ -8,11 +9,10 @@ import Blog.api.demo.Model.Role.RoleName;
 import Blog.api.demo.Model.User;
 import Blog.api.demo.Repository.PostRepository;
 import Blog.api.demo.Repository.UserRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +36,7 @@ public class PostServiceImpl implements PostService {
         Post post = postMapper.toEntity(postDto, user);
 
         // Approval logic: external users need approval
-        boolean isApprover = user.hasRole(RoleName.EMPLOYEE) || user.hasRole(RoleName.ADMIN);
+        boolean isApprover = user.hasRole(RoleName.USER) || user.hasRole(RoleName.ADMIN);
         post.setApproved(isApprover);
 
 
@@ -86,7 +86,7 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow();
 
-        if (!user.getRoles().equals("EMPLOYEE")) {
+        if (!user.getRoles().equals("ADMIN")) {
             post.setApproved(false); // Flag for admin re-approval
             postRepository.save(post);
         } else {
@@ -109,9 +109,6 @@ public class PostServiceImpl implements PostService {
         return postMapper.toDto(postRepository.save(post));
     }
 
-    @Override
-    public Page<PostDto> getPaginatedPosts(Pageable pageable) {
-        return null;
-    }
+
 }
 

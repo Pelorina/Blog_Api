@@ -1,9 +1,11 @@
 package Blog.api.demo.Service;
 import Blog.api.demo.Dto.PostDto;
+import Blog.api.demo.Dto.UserDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostService {
 
@@ -11,7 +13,7 @@ public interface PostService {
 
     PostDto getPostById(Long id);
 
-    List<PostDto> getAllPosts(); // Only approved posts
+    List<PostDto> getAllPosts();
 
     PostDto updatePost(Long id, PostDto postDto, String editorEmail);
 
@@ -20,7 +22,5 @@ public interface PostService {
     List<PostDto> getPendingApprovalPosts();
 
     PostDto approvePost(Long id);
-
-    Page<PostDto> getPaginatedPosts(Pageable pageable);
 }
 
